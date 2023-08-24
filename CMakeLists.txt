@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Release)
@@ -11,33 +11,34 @@ project(
 )
 
 add_executable(
-    vector
+    test
+    src/test_main.c
     src/vector.c
 )
-
-target_link_libraries(vector
-    Unity)
-
-add_custom_target(
-    run
-    COMMAND vector
-    DEPENDS vector
-    WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
-    VERBATIM
-)
-
 target_include_directories(
-    vector
+    test
     PUBLIC
     src
 )
 
-add_library(Unity STATIC
-    ../Unity/src/unity.c
+# target_link_libraries(vector
+#     Unity)
+
+add_custom_target(
+    run
+    COMMAND test
+    DEPENDS test
+    WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+    VERBATIM
 )
 
-target_include_directories(
-    Unity
-    PUBLIC
-    ../Unity/src
-)
+
+# add_library(Unity STATIC
+#     ../Unity/src/unity.c
+# )
+#
+# target_include_directories(
+#     Unity
+#     PUBLIC
+#     ../Unity/src
+# )
