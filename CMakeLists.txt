@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Release)
 
+target_include_directories(external)
+
 project(
     vector
     VERSION 0.1.0
@@ -21,8 +23,8 @@ target_include_directories(
     src
 )
 
-# target_link_libraries(vector
-#     Unity)
+target_link_libraries(test
+    unity)
 
 add_custom_target(
     run
