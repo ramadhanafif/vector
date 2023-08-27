@@ -40,16 +40,16 @@ typedef void *vector_t; ///< Type for vector, alias to generic (void) pointer.
 #define vector_pop_back(vec) \
     ({ \
         __typeof__(*vec) temp = vec[vector_len(vec) - 1]; \
-        vector_rm(vec, vector_len(vec) - 1); \
+        vector_remove(vec, vector_len(vec) - 1); \
         temp; \
     })
 
 /**
- * @def vector_rm(vec, pos)
+ * @def vector_remove(vec, pos)
  * Removes the element at \a pos of the vector.
  * @warn this function does not check validity of the position. Caller must check it by themselves.
  */
-#define vector_rm(vec, pos) prv_vector_rm(vec, pos, sizeof(*vec))
+#define vector_remove(vec, pos) prv_vector_remove(vec, pos, sizeof(*vec))
 
 /**
  * @brief Creates a new dynamically-allocated and dynamically-sized vector
@@ -75,9 +75,9 @@ vector_t prv_vector_insert(vector_t vec, uint64_t pos, void *data, size_t size);
  * @param pos The position to remove the element from.
  * @param size The size of the data to remove.
  *
- * @warn this function should not be called directly. Use the macro \a vector_rm instead.
+ * @warn this function should not be called directly. Use the macro \a vector_remove instead.
  */
-void prv_vector_rm(vector_t vec, uint64_t pos, size_t size);
+void prv_vector_remove(vector_t vec, uint64_t pos, size_t size);
 
 /**
  * @brief Returns the allocated memory for the vector.

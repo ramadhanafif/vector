@@ -48,7 +48,7 @@ vector_t prv_vector_insert(vector_t vec, uint64_t pos, void *data, size_t size)
     return (vector_t)meta->data;
 }
 
-void prv_vector_rm(vector_t vec, uint64_t pos, size_t size)
+void prv_vector_remove(vector_t vec, uint64_t pos, size_t size)
 {
     struct vector_metadata *meta = DATA_TO_META(vec);
     assert(meta->used - pos >= 0);
