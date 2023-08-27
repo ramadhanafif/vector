@@ -1,1 +1,1 @@
-include_directories(Unity)
+add_subdirectory(Unity)

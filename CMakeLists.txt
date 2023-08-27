@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Release)
 
-target_include_directories(external)
+add_subdirectory(external)
 
 project(
     vector
@@ -13,34 +13,23 @@ project(
 )
 
 add_executable(
-    test
-    src/test_main.c
+    test_vector
+    test/test_main.c
     src/vector.c
 )
 target_include_directories(
-    test
+    test_vector
     PUBLIC
     src
 )
 
-target_link_libraries(test
+target_link_libraries(test_vector
     unity)
 
 add_custom_target(
-    run
-    COMMAND test
-    DEPENDS test
+    run_test
+    COMMAND test_vector
+    DEPENDS test_vector
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
     VERBATIM
 )
-
-
-# add_library(Unity STATIC
-#     ../Unity/src/unity.c
-# )
-#
-# target_include_directories(
-#     Unity
-#     PUBLIC
-#     ../Unity/src
-# )
