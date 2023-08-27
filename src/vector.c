@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DATA_OFFSET        (offsetof(struct vector_metadata, data))
+#define HEAD_SIZE          DATA_OFFSET
 #define DATA_TO_META(data) ((struct vector_metadata *)((char *)data - DATA_OFFSET))
 
 struct vector_metadata {
