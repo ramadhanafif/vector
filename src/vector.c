@@ -36,8 +36,10 @@ vector_t prv_vector_insert(vector_t vec, uint64_t pos, void *data, size_t size)
     if (meta->allocated == meta->used) {
         uint64_t allocd = meta->allocated++;
         temp            = prv_realloc(meta, HEAD_SIZE + meta->allocated * size);
-        assert(temp != NULL);
-        meta = temp;
+        if (temp != NULL)
+            meta = temp;
+        else
+            return NULL;
     }
     memmove(
         meta->data + (pos + 1) * size, // Destination address: the next data
@@ -74,8 +76,11 @@ size_t vector_len(vector_t vec)
 vector_t vector_shrink_to_fit(vector_t vec)
 {
     struct vector_metadata *meta = DATA_TO_META(vec);
-    meta                         = prv_realloc(meta, HEAD_SIZE + meta->used);
-    meta->allocated              = meta->used;
+    struct vector_metadata *temp = prv_realloc(meta, HEAD_SIZE + meta->used);
+    if (temp != NULL) {
+        meta            = temp;
+        meta->allocated = meta->used;
+    }
     return meta;
 }
 
