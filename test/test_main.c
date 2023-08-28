@@ -94,19 +94,19 @@ void test_insert()
     TEST_ASSERT_EQUAL(10, vector_size(vector));
     TEST_ASSERT_EQUAL(10, vector_len(vector));
 
-    vector_insert(vector, 0, 10);
+    vector = vector_insert(vector, 0, 10);
     TEST_ASSERT_EQUAL(11, vector_size(vector));
     TEST_ASSERT_EQUAL(11, vector_len(vector));
     int exp1[] = { 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     TEST_ASSERT_EQUAL_INT_ARRAY(exp1, vector, 11);
 
-    vector_insert(vector, 4, 11);
+    vector = vector_insert(vector, 4, 11);
     TEST_ASSERT_EQUAL(12, vector_size(vector));
     TEST_ASSERT_EQUAL(12, vector_len(vector));
     int exp2[] = { 10, 0, 1, 2, 11, 3, 4, 5, 6, 7, 8, 9 };
     TEST_ASSERT_EQUAL_INT_ARRAY(exp2, vector, 12);
 
-    vector_insert(vector, 7, 12);
+    vector = vector_insert(vector, 7, 12);
     TEST_ASSERT_EQUAL(13, vector_size(vector));
     TEST_ASSERT_EQUAL(13, vector_len(vector));
     int exp3[] = { 10, 0, 1, 2, 11, 3, 4, 12, 5, 6, 7, 8, 9 };

@@ -29,6 +29,13 @@ if(PROJECT_IS_TOP_LEVEL)
         test/test_main.c
     )
 
+    target_link_options(test_vector
+        PUBLIC
+        -fsanitize=address
+        -fsanitize=undefined
+        -fsanitize=leak
+    )
+
     target_include_directories(
         test_vector
         PUBLIC

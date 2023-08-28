@@ -44,11 +44,11 @@ vector_t prv_vector_insert(vector_t vec, uint64_t pos, void *data, size_t size)
     struct vector_metadata *meta = DATA_TO_META(vec);
     struct vector_metadata *temp = NULL;
     if (meta->allocated == meta->used) {
-        uint64_t allocd = meta->allocated++;
-        temp            = prv_realloc(meta, HEAD_SIZE + meta->allocated * size);
-        if (temp != NULL)
+        temp = prv_realloc(meta, HEAD_SIZE + (meta->allocated + 1) * size);
+        if (temp != NULL) {
             meta = temp;
-        else
+            meta->allocated++;
+        } else
             return NULL;
     }
     memmove(

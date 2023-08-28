@@ -19,11 +19,7 @@ typedef void *vector_t; ///< Type for vector, alias to generic (void) pointer.
  * @warn the returned pointer is not guaranteed to be the same as the original pointer. Use the returned pointer
  * instead!
  */
-#define vector_push_back(vec, data) \
-    ({ \
-        __typeof__(*vec) temp = data; \
-        (__typeof__(*vec) *)prv_vector_insert(vec, vector_len(vec), &temp, sizeof(temp)); \
-    })
+#define vector_push_back(vec, data) (vector_insert(vec, vector_len(vec), data))
 
 /**
  * @def vector_insert(vec, pos, data)
@@ -34,7 +30,7 @@ typedef void *vector_t; ///< Type for vector, alias to generic (void) pointer.
  */
 #define vector_insert(vec, pos, data) \
     ({ \
-        __typeof__(*vec) temp = data; \
+        __typeof__(*vec) temp = (__typeof__(*vec))data; \
         (__typeof__(*vec) *)prv_vector_insert(vec, pos, &temp, sizeof(temp)); \
     })
 
