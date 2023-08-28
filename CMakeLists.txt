@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_COMPILER clang)
 
 add_subdirectory(external)
@@ -28,7 +28,7 @@ target_link_libraries(test_vector
     unity)
 
 add_custom_target(
-    run_test
+    runtest
     COMMAND test_vector
     DEPENDS test_vector
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}

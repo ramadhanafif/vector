@@ -1,7 +1,6 @@
 #include "unity.h"
+#include "unity_internals.h"
 #include "vector.h"
-
-typedef void(test_runner_t)(void);
 
 void test_simple_pushback(void)
 {
@@ -141,13 +140,15 @@ void test_shrink()
 
     TEST_ASSERT_EQUAL(10, vector_size(vector));
     TEST_ASSERT_EQUAL(10, vector_len(vector));
+    vector = vector_shrink_to_fit(vector);
+    TEST_ASSERT_EQUAL(10, vector_size(vector));
+    TEST_ASSERT_EQUAL(10, vector_len(vector));
 
     vector_remove(vector, 0);
     vector_remove(vector, 5);
     TEST_ASSERT_EQUAL(10, vector_size(vector));
     TEST_ASSERT_EQUAL(8, vector_len(vector));
-
-    vector_shrink_to_fit(vector);
+    vector = vector_shrink_to_fit(vector);
     TEST_ASSERT_EQUAL(8, vector_size(vector));
     TEST_ASSERT_EQUAL(8, vector_len(vector));
 
@@ -156,29 +157,22 @@ void test_shrink()
     TEST_ASSERT_EQUAL(8, vector_size(vector));
     TEST_ASSERT_EQUAL(6, vector_len(vector));
 
-    vector_shrink_to_fit(vector);
+    vector = vector_shrink_to_fit(vector);
     TEST_ASSERT_EQUAL(6, vector_size(vector));
     TEST_ASSERT_EQUAL(6, vector_len(vector));
 
     vector_destroy(vector);
 }
 
-test_runner_t *test_runners[] = {
-    // test_simple_pushback,
-    // test_pop_back,
-    // test_vector_remove,
-    // test_insert,
-    test_shrink,
-};
-
-size_t test_runners_len = sizeof(test_runners) / sizeof(test_runners[0]);
-
 int main()
 {
     UNITY_BEGIN();
-    for (size_t i = 0; i < test_runners_len; i++) {
-        RUN_TEST(test_runners[i]);
-    }
+    RUN_TEST(test_simple_pushback);
+    RUN_TEST(test_simple_pushback);
+    RUN_TEST(test_pop_back);
+    RUN_TEST(test_vector_remove);
+    RUN_TEST(test_insert);
+    RUN_TEST(test_shrink);
 
     return UNITY_END();
 }
