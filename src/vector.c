@@ -14,14 +14,24 @@ struct vector_metadata {
     char data[];
 };
 
-static inline struct vector_metadata *prv_realloc(struct vector_metadata *meta, int new_size)
+// NOTE: prv_malloc and prv_realloc in preparation for future custom memory management
+// TODO: should be a weak reference
+static struct vector_metadata *prv_realloc(struct vector_metadata *meta, int new_size)
 {
     return (struct vector_metadata *)realloc(meta, new_size);
+}
+static inline void *prv_malloc(int size)
+{
+    return malloc(size);
+}
+static inline void prv_free(void *meta)
+{
+    free(meta);
 }
 
 vector_t vector_create()
 {
-    struct vector_metadata *meta = malloc(sizeof(struct vector_metadata));
+    struct vector_metadata *meta = prv_malloc(sizeof(struct vector_metadata));
 
     meta->allocated = 0;
     meta->used      = 0;
@@ -73,19 +83,25 @@ size_t vector_len(vector_t vec)
     return meta->used;
 }
 
-vector_t vector_shrink_to_fit(vector_t vec)
+vector_t prv_vector_shrink_to_fit(vector_t vec, size_t size)
 {
     struct vector_metadata *meta = DATA_TO_META(vec);
-    struct vector_metadata *temp = prv_realloc(meta, HEAD_SIZE + meta->used);
-    if (temp != NULL) {
-        meta            = temp;
-        meta->allocated = meta->used;
+    struct vector_metadata *temp;
+
+    if (meta->allocated != meta->used) {
+        temp = prv_realloc(meta, HEAD_SIZE + meta->used * size);
+        assert(temp != NULL);
+        if (temp != NULL) {
+            meta            = temp;
+            meta->allocated = meta->used;
+        }
     }
-    return meta;
+
+    return meta->data;
 }
 
 void vector_destroy(vector_t vec)
 {
     struct vector_metadata *meta = DATA_TO_META(vec);
-    free(meta);
+    prv_free(meta);
 }
