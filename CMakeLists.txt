@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_C_COMPILER clang)
-
-add_subdirectory(external)
-
 project(
     vector
     VERSION 0.1.0
@@ -13,24 +7,42 @@ project(
     LANGUAGES C
 )
 
-add_executable(
-    test_vector
-    test/test_main.c
+add_library(
+    vector
     src/vector.c
 )
 target_include_directories(
-    test_vector
+    vector
     PUBLIC
     src
 )
 
-target_link_libraries(test_vector
-    unity)
+if(PROJECT_IS_TOP_LEVEL)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    set(CMAKE_BUILD_TYPE Debug)
 
-add_custom_target(
-    runtest
-    COMMAND test_vector
-    DEPENDS test_vector
-    WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
-    VERBATIM
-)
+    message("PROJECT IS TOP LEVEL, building tests")
+    message("run test with `make -C ${CMAKE_BINARY_DIR} runtest`")
+    add_subdirectory(external)
+    add_executable(
+        test_vector
+        test/test_main.c
+    )
+
+    target_include_directories(
+        test_vector
+        PUBLIC
+        src
+    )
+
+    target_link_libraries(test_vector
+        unity vector)
+
+    add_custom_target(
+        runtest
+        COMMAND test_vector
+        DEPENDS test_vector
+        WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+        VERBATIM
+    )
+endif()
