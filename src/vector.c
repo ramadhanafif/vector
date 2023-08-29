@@ -63,7 +63,7 @@ vector_t prv_vector_insert(vector_t vec, uint64_t pos, void *data, size_t size)
 void prv_vector_remove(vector_t vec, uint64_t pos, size_t size)
 {
     struct vector_metadata *meta = DATA_TO_META(vec);
-    assert(meta->used - pos >= 0);
+    assert(meta->used >= pos);
     memmove(
         meta->data + (pos)*size,        // Destination address
         meta->data + (pos + 1) * size,  // Source address: the next data
